@@ -5,7 +5,7 @@ class RoomList extends Component {
     super(props);
     this.state = {
       rooms: [],
-      newRoomName: " "
+      newRoomName: ''
     };
   // Store a Firebase reference to the rooms path onto the this keyword
   this.roomsRef = this.props.firebase.database().ref('rooms');
@@ -27,8 +27,11 @@ class RoomList extends Component {
    }
 
    //createRoom for form submission
-   createRoom(room) {
-     this.roomsRef.push({ name: this.state.newRoomName });
+   createRoom(e) {
+     e.preventDefault();
+     if (!this.state.newRoomName) { return }
+     this.setState({ rooms: [...this.state.rooms, this.state.newRoomName], newRoomName: ''})
+     this.roomsRef.push({ name: this.state.newRoomName});
    }
    // Inside of the render method, use a .map() call on this.state.rooms to display data for each room.
   render(){
